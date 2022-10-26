@@ -5,9 +5,11 @@
 #ifndef COURSEWORK_IPLAYER_H
 #define COURSEWORK_IPLAYER_H
 
+#include "../Entity/Entity.h"
 
-class IPlayer {
+class IPlayer : Entity {
 
+public:
 
 
 };

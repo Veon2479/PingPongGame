@@ -7,7 +7,7 @@
 
 #include <tchar.h>
 #include <windef.h>
-#include "../include/Server.h"
+#include "Server/IServer.h"
 #include "../include/Drawer.h"
 
 class Game {
@@ -18,7 +18,7 @@ public:
 
     bool Start();
     bool Stop();
-    bool IsRunning;
+    bool GetRunningState();
 
     void DecodeKey(wchar_t code);
 
@@ -27,8 +27,12 @@ public:
     void SetWindowSize(RECT rc);
 
 private:
-    Server *srv = nullptr;
-    Drawer *drawer = nullptr;
+    IServer *server = nullptr;
+    Drawer *rawer = new Drawer();
+
+    bool IsRunning = false;
+
+    long xSize = 0, ySize = 0;
 
 };
 

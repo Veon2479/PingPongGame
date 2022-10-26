@@ -6,7 +6,7 @@
 
 Game::Game()
 {
-    IsRunning = false;
+
 }
 
 Game::~Game()
