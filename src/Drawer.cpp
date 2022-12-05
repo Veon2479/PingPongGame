@@ -2,10 +2,10 @@
 // Created by Andmin on 12/5/2022.
 //
 
-#include <windef.h>
+
 #include "../include/Drawer.h"
 
-void Drawer::Draw(HDC hdc, Player *playerOne, Player *playerTwo, ServerState *state) {
+void Drawer::Draw(HDC hdc, ServerState *state) {
 
 //    RECT rc;
 //    GetClientRect(hwnd, &rc);
@@ -26,6 +26,25 @@ void Drawer::Draw(HDC hdc, Player *playerOne, Player *playerTwo, ServerState *st
 //    //RestoreDC(memDC, nMemDc);
 //    DeleteObject(hBitMap);
 
+//    HDC memDC = CreateCompatibleDC(hdc);
+//    HBITMAP hBitMap = CreateCompatibleBitmap(hdc, xSize, ySize);
+//    SelectObject(memDC, hBitMap);
+//
+//    Gdiplus::Graphics graphics(memDC);
+//
+//    //TODO: drawing
+//    Gdiplus::SolidBrush back(Gdiplus::Color::Black);
+//    graphics.FillRectangle(&back, 0, 0, (int)600, (int)480);
+//
+//
+//    BitBlt(hdc, 0, 0, (int)600, (int)480, memDC, 0, 0, SRCCOPY);
+//    DeleteObject(hBitMap);
+
+    Gdiplus::Graphics graphics(hdc);
+    Gdiplus::SolidBrush back(Gdiplus::Color::Black);
+    graphics.FillRectangle(&back, 0, 0, (int)xSize, (int)ySize);
+
+
 }
 
 void Drawer::ChangeEntry(int dChosenEntry) {
@@ -36,4 +55,17 @@ void Drawer::ChangeEntry(int dChosenEntry) {
 
 Drawer::State Drawer::ChangeState() {
     return Drawer::Menu;
+}
+
+Drawer::Drawer() {
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+}
+
+Drawer::~Drawer() {
+    Gdiplus::GdiplusShutdown(gdiplusToken);
+}
+
+Drawer::State Drawer::ReturnToPrevState() {
+    return Drawer::None;
 }

@@ -3,7 +3,7 @@
 #endif
 
 #include <windows.h>
-#include "../include/Game.h"
+#include "include/Game.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -14,6 +14,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 {
     const wchar_t NAME[] = L"Ping-pong!";
     WNDCLASS wc = { };
+
+    BYTE CursorMaskAND[] = { 0xFF};
+    BYTE CursorMaskXOR[] = { 0x00 };
+    wc.hCursor = CreateCursor(nullptr, 0, 0, 1, 1, CursorMaskAND, CursorMaskXOR);
 
     wc.lpfnWndProc   = WindowProc;
     wc.hInstance     = hInstance;
@@ -27,6 +31,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
                                       MONITOR_DEFAULTTONEAREST);
     MONITORINFO mi = { sizeof(mi) };
     GetMonitorInfo(hmon, &mi);
+
+    game = new Game();
+
     HWND hwnd = CreateWindowEx(
             0,                              // Optional window styles.
             NAME,                     // Window class
@@ -34,7 +41,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
             WS_MAXIMIZE | WS_POPUPWINDOW,            // Window style
 
             // Size and position
-//            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
             mi.rcMonitor.left, mi.rcMonitor.top,
             mi.rcMonitor.right - mi.rcMonitor.left,
             mi.rcMonitor.bottom - mi.rcMonitor.top,
@@ -49,13 +55,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
         return 0;
     }
 
+
     ShowWindow(hwnd, nCmdShow);
 
-    game = new Game();
     game->Start();
     SetTimer(hwnd, 1, timerInterval, nullptr);
     // Run the message loop.
-
     MSG msg = { };
     while (GetMessage(&msg, nullptr, 0, 0) > 0)
     {
@@ -70,6 +75,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
+        case WM_CREATE:
+            RECT rc;
+            GetClientRect(hwnd, &rc);
+            game->SetWindowSize(rc);
+            InvalidateRect(hwnd, nullptr, true);
+            return 0;
+
         case WM_DESTROY:
 
             KillTimer(hwnd, 1);
@@ -79,31 +91,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             PostQuitMessage(0);
             return 0;
 
-        case WM_CHAR:
-
+        case WM_KEYDOWN:
             game->DecodeKey((wchar_t)wParam);
+            InvalidateRect(hwnd, nullptr, false);
             return 0;
 
         case WM_TIMER:
-
             game->Update();
+            InvalidateRect(hwnd, nullptr, false);
             return 0;
 
-        case WM_SIZE:
-
-            RECT rc;
-            GetClientRect(hwnd, &rc);
-            game->SetWindowSize(rc);
-
         case WM_ERASEBKGND:
-
             return false;
 
         case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hwnd, &ps);
-            game->Paint(hdc);
+                game->Paint(hdc);
             EndPaint(hwnd, &ps);
         }
             return 0;

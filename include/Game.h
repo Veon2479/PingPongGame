@@ -18,7 +18,10 @@ public:
 
     bool Start();
     bool Stop();
-    bool GetRunningState();
+    bool GetRunningState()
+    {
+        return IsRunning;
+    }
 
     void DecodeKey(wchar_t code);
 
@@ -28,7 +31,7 @@ public:
 
 private:
     Server *server = nullptr;
-    Drawer *drawer = new Drawer();
+    Drawer *drawer = nullptr;
 
     bool IsRunning = false;
 

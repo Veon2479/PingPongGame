@@ -18,7 +18,7 @@ public:
     bool Stop();
     bool GetRunningState();
 
-    bool DecodeKey();
+    void DecodeKey(wchar_t code);
 
     virtual void Update();
 
