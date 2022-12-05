@@ -2,17 +2,17 @@
 // Created by Andmin on 22.10.2022.
 //
 
-#ifndef COURSEWORK_ISERVER_H
-#define COURSEWORK_ISERVER_H
+#ifndef COURSEWORK_SERVER_H
+#define COURSEWORK_SERVER_H
 
 #include <vector>
 
-#include "../Player/IPlayer.h"
+#include "../Player/Player.h"
 
-class IServer {
+class Server {
 public:
-    IServer(IPlayer playerOne, IPlayer playerTwo);
-    ~IServer();
+    Server(Player playerOne, Player playerTwo, bool IsActive);
+    ~Server();
 
     bool Start();
     bool Stop();
@@ -25,7 +25,6 @@ public:
     const std::vector<const Entity> GetEntityList();
 
 private:
-    IPlayer *PlayerOne = nullptr, *PlayerTwo = nullptr;
     float time = 0;
 
     bool IsRunning = false;
@@ -38,4 +37,4 @@ private:
 };
 
 
-#endif //COURSEWORK_ISERVER_H
+#endif //COURSEWORK_SERVER_H

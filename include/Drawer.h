@@ -6,27 +6,48 @@
 #define COURSEWORK_DRAWER_H
 
 
+#include "Server/ServerState.h"
+
 class Drawer {
 
 public:
 
     typedef enum state
     {
-        Menu = 0,
-        Game = 1
+        None = -1,
+        Game = 0,
+        Menu = 1,
+        MultiplayerMenu = 2
     } State;
 
-    State GetState();
+    State GetState()
+    {
+        return state;
+    }
 
     State ChangeState(); //due to chosen entry
+
     void ChangeEntry(int dChosenEntry); // -1 or 1
 
-    void Draw(HDC hdc, IPlayer *playerOne, IPlayer *playerTwo, std::vector<Entity>); //draw due to State
+    void Draw(HDC hdc, Player *playerOne, Player *playerTwo, ServerState* state); //draw due to State
+
+    bool IsGameRunning()
+    {
+        return isGameRunning;
+    }
+
+    void SetWindowSize(RECT rc)
+    {
+        xSize = rc.right - rc.left;
+        ySize = rc.bottom - rc.top;
+    }
 
 
 private:
-    State state = Menu, lastState = Menu;
+    State state = Menu, lastState = None;
     int ChosenEntry = 0;
+    bool isGameRunning = false;
+    long xSize = 0, ySize = 0;
 };
 
 

@@ -23,15 +23,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 
     // Create the window.
 
+    HMONITOR hmon = MonitorFromWindow(nullptr,
+                                      MONITOR_DEFAULTTONEAREST);
+    MONITORINFO mi = { sizeof(mi) };
+    GetMonitorInfo(hmon, &mi);
     HWND hwnd = CreateWindowEx(
             0,                              // Optional window styles.
             NAME,                     // Window class
             NAME,    // Window text
-            WS_OVERLAPPEDWINDOW,            // Window style
+            WS_MAXIMIZE | WS_POPUPWINDOW,            // Window style
 
             // Size and position
-            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
+//            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+            mi.rcMonitor.left, mi.rcMonitor.top,
+            mi.rcMonitor.right - mi.rcMonitor.left,
+            mi.rcMonitor.bottom - mi.rcMonitor.top,
             nullptr,       // Parent window
             nullptr,       // Menu
             hInstance,  // Instance handle

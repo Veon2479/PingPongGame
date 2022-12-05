@@ -6,9 +6,9 @@
 #define COURSEWORK_REMOTEPLAYER_H
 
 
-#include "IPlayer.h"
+#include "Player.h"
 
-class RemotePlayer : IPlayer{
+class RemotePlayer : Player{
 
     //TODO: make UDP connection via UDP winapi socket
 

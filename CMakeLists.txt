@@ -7,10 +7,10 @@ LINK_LIBRARIES(${MyProject} -lgdiplus )
 
 set(Files
         src/main.cpp
-        include/Player/IPlayer.h include/Player/LocalPlayer.h include/Player/RemotePlayer.h
-        include/Server/IServer.h include/Server/ActiveServer.h include/Server/PassiveServer.h
+        include/Player/Player.h include/Player/LocalPlayer.h include/Player/RemotePlayer.h
+        include/Server/Server.h
         include/Entity/Entity.h include/Entity/Ball.h
         include/Drawer.h
-        include/Game.h src/Game.cpp )
+        include/Game.h src/Game.cpp include/Server/ServerState.h include/Server/ServerState.h include/Server/ServerData.h src/Drawer.cpp)
 
 add_executable(Coursework ${Files})

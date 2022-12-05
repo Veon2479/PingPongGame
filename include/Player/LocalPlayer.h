@@ -6,9 +6,9 @@
 #define COURSEWORK_LOCALPLAYER_H
 
 
-#include "IPlayer.h"
+#include "Player.h"
 
-class LocalPlayer : IPlayer {
+class LocalPlayer : Player {
 
 };
 

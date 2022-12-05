@@ -7,7 +7,7 @@
 
 #include <tchar.h>
 #include <windef.h>
-#include "Server/IServer.h"
+#include "Server/Server.h"
 #include "../include/Drawer.h"
 
 class Game {
@@ -27,12 +27,10 @@ public:
     void SetWindowSize(RECT rc);
 
 private:
-    IServer *server = nullptr;
-    Drawer *rawer = new Drawer();
+    Server *server = nullptr;
+    Drawer *drawer = new Drawer();
 
     bool IsRunning = false;
-
-    long xSize = 0, ySize = 0;
 
 };
 
