@@ -26,8 +26,6 @@ bool Game::Stop()
     return !IsRunning;
 }
 
-//TODO: how game (server) is started?????????
-
 void Game::DecodeKey(wchar_t code)
 {
     if (drawer != nullptr)
@@ -64,7 +62,11 @@ void Game::DecodeKey(wchar_t code)
                     break;
 
                 case VK_RETURN:      //Enter
-                    drawer->ChangeState();
+                    Drawer::State state = drawer->ChangeState();
+                    if (state == Drawer::Game)
+                    {
+                        //TODO: start game (server)
+                    }
                     break;
 
                 case L'W':
