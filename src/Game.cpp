@@ -57,18 +57,6 @@ void Game::DecodeKey(wchar_t code)
         {
             switch (code)
             {
-                case VK_ESCAPE:    //escape
-                    drawer->ReturnToPrevState();
-                    break;
-
-                case VK_RETURN:      //Enter
-                    Drawer::State state = drawer->ChangeState();
-                    if (state == Drawer::Game)
-                    {
-                        //TODO: start game (server)
-                    }
-                    break;
-
                 case L'W':
                 case L'w':
                 case L'ц':
@@ -86,7 +74,16 @@ void Game::DecodeKey(wchar_t code)
                     std::wcout << "LOG: pressed: " << (int)code << " - " << code << std::endl;
                     break;
 
-                default:
+                case VK_ESCAPE:    //escape
+                    drawer->ReturnToPrevState();
+                    break;
+
+                case VK_RETURN:      //Enter
+                    Drawer::State state = drawer->ChangeState();
+                    if (state == Drawer::Game)
+                    {
+                        //TODO: start game (server)
+                    }
                     break;
             }
         }
