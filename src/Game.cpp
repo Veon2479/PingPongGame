@@ -2,8 +2,8 @@
 // Created by Andmin on 23.10.2022.
 //
 
-#include <iostream>
 #include "../include/Game.h"
+
 
 Game::Game()
 {
@@ -71,7 +71,6 @@ void Game::DecodeKey(wchar_t code)
                 case L'ы':
                 case VK_DOWN:
                     drawer->ChangeEntry(1);
-                    std::wcout << "LOG: pressed: " << (int)code << " - " << code << std::endl;
                     break;
 
                 case VK_ESCAPE:    //escape
@@ -80,9 +79,25 @@ void Game::DecodeKey(wchar_t code)
 
                 case VK_RETURN:      //Enter
                     Drawer::State state = drawer->ChangeState();
-                    if (state == Drawer::Game)
+                    switch (state)
                     {
-                        //TODO: start game (server)
+                        case Drawer::LocalGame:
+                            server = new Server(new LocalPlayer(0), new LocalPlayer(0), true);
+                            server->Start();
+                            break;
+
+                        case Drawer::RemoteHostGame:
+                            server = new Server(new LocalPlayer(0), new RemotePlayer(0), true);
+                            server->Start();
+                            break;
+
+                        case Drawer::RemoteGuestGame:
+                            server = new Server(new RemotePlayer(0), new LocalPlayer(0), false);
+                            server->Start();
+                            break;
+
+                        default:
+                            break;
                     }
                     break;
             }

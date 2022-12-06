@@ -16,6 +16,7 @@ public:
 
     Player *PlayerOne = nullptr, *PlayerTwo = nullptr;
     std::vector<Entity>* EntityList = nullptr;
+    long CurrentCheck = 0, MaxCHeck = 1;
 
     ServerData GetServerData(int playerID);
 

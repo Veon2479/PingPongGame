@@ -41,9 +41,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
             WS_MAXIMIZE | WS_POPUPWINDOW,            // Window style
 
             // Size and position
-            mi.rcMonitor.left, mi.rcMonitor.top,
-            mi.rcMonitor.right - mi.rcMonitor.left,
-            mi.rcMonitor.bottom - mi.rcMonitor.top,
+            mi.rcMonitor.left - 1, mi.rcMonitor.top - 1,
+            mi.rcMonitor.right - mi.rcMonitor.left + 2,
+            mi.rcMonitor.bottom - mi.rcMonitor.top + 2,
             nullptr,       // Parent window
             nullptr,       // Menu
             hInstance,  // Instance handle

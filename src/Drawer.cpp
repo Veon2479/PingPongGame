@@ -2,70 +2,68 @@
 // Created by Andmin on 12/5/2022.
 //
 
-
 #include "../include/Drawer.h"
 
-void Drawer::Draw(HDC hdc, ServerState *state) {
-
-//    RECT rc;
-//    GetClientRect(hwnd, &rc);
-//
-//    HDC memDC = CreateCompatibleDC(hdc);
-//    //const int nMemDc = SaveDC(memDC);
-//
-//    HBITMAP hBitMap = CreateCompatibleBitmap(hdc, rc.right - rc.left, rc.bottom - rc.top);
-//    SelectObject(memDC, hBitMap);
-//
-//    Gdiplus::Graphics graphics(memDC);
-//    Gdiplus::SolidBrush back(curColor);
-//    graphics.FillRectangle(&back, (int)rc.left, (int)rc.top, (int)(rc.right-rc.left), (int)(rc.bottom-rc.top));
-//
-//    graphics.DrawImage(curImage, x, y);
-//
-//    BitBlt(hdc, (int)rc.left, (int)rc.top, (int)(rc.right-rc.left), (int)(rc.bottom-rc.top), memDC, (int)rc.left, (int)rc.top, SRCCOPY);
-//    //RestoreDC(memDC, nMemDc);
-//    DeleteObject(hBitMap);
-
-//    HDC memDC = CreateCompatibleDC(hdc);
-//    HBITMAP hBitMap = CreateCompatibleBitmap(hdc, xSize, ySize);
-//    SelectObject(memDC, hBitMap);
-//
-//    Gdiplus::Graphics graphics(memDC);
-//
-//    //TODO: drawing
-//    Gdiplus::SolidBrush back(Gdiplus::Color::Black);
-//    graphics.FillRectangle(&back, 0, 0, (int)600, (int)480);
-//
-//
-//    BitBlt(hdc, 0, 0, (int)600, (int)480, memDC, 0, 0, SRCCOPY);
-//    DeleteObject(hBitMap);
-
-    Gdiplus::Graphics graphics(hdc);
-    Gdiplus::SolidBrush back(Gdiplus::Color::Black);
-    graphics.FillRectangle(&back, 0, 0, (int)xSize, (int)ySize);
-
-
-}
-
-void Drawer::ChangeEntry(int dChosenEntry) {
-
-
-
-}
-
-Drawer::State Drawer::ChangeState() {
-    return Drawer::Menu;
-}
-
-Drawer::Drawer() {
+Drawer::Drawer()
+{
     Gdiplus::GdiplusStartupInput gdiplusStartupInput;
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+
+    AddFontResource(FontPath);
+    fontFamily = new Gdiplus::FontFamily(L"ugly MainMenuFont");
+    solidBrush = new Gdiplus::SolidBrush(Gdiplus::Color(255, 50, 205, 50));
+
+    MainMenuFont = new Gdiplus::Font(fontFamily, 72, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
+
 }
 
-Drawer::~Drawer() {
+Drawer::~Drawer()
+{
+    delete MainMenuFont;
+
+    delete solidBrush;
+    delete fontFamily;
+    RemoveFontResource("data/uglyFont.otf");
     Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
-Drawer::State Drawer::ReturnToPrevState() {
-    return Drawer::None;
+void Drawer::Draw(HDC hdc, ServerState *state_)
+{
+
+    HDC memDC = CreateCompatibleDC(hdc);
+    HBITMAP hBitMap = CreateCompatibleBitmap(hdc, xSize, ySize);
+    SelectObject(memDC, hBitMap);
+
+    Gdiplus::Graphics graphics(memDC);
+
+    Gdiplus::SolidBrush back(Gdiplus::Color::Black);
+    graphics.FillRectangle(&back, 0, 0, (int)xSize, (int)ySize);
+
+    switch (Drawer::state)
+    {
+        case LocalGame:
+        case RemoteGuestGame:
+        case RemoteHostGame:
+            DrawGameState(&graphics, state_);
+            break;
+
+        default:
+            DrawNonGameState(&graphics);
+            break;
+    }
+
+    BitBlt(hdc, 0, 0, (int)xSize, (int)ySize, memDC, 0, 0, SRCCOPY);
+    DeleteObject(hBitMap);
+
+}
+
+void Drawer::DrawGameState(Gdiplus::Graphics* graphics, ServerState *state)
+{
+
+}
+
+void Drawer::DrawNonGameState(Gdiplus::Graphics* graphics)
+{
+    Gdiplus::PointF      pointF(150.0f, 150.0f);
+    graphics->DrawString(L"Let's play pong", -1, MainMenuFont, pointF, solidBrush);
 }

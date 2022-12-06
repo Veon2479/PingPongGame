@@ -7,8 +7,12 @@
 
 #include <tchar.h>
 #include <windef.h>
+#include <iostream>
+
 #include "Server/Server.h"
 #include "../include/Drawer.h"
+#include "../include/Player/LocalPlayer.h"
+#include "../include/Player/RemotePlayer.h"
 
 class Game {
 

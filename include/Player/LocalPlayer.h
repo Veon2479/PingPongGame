@@ -8,7 +8,10 @@
 
 #include "Player.h"
 
-class LocalPlayer : Player {
+class LocalPlayer : public Player {
+
+public:
+    explicit LocalPlayer(int playerId);
 
 };
 

@@ -11,7 +11,7 @@
 
 class Server {
 public:
-    Server(Player playerOne, Player playerTwo, bool IsActive);
+    Server(Player* playerOne, Player* playerTwo, bool IsActive);
     ~Server();
 
     bool Start();
@@ -20,9 +20,12 @@ public:
 
     void DecodeKey(wchar_t code);
 
-    virtual void Update();
+    void Update();
 
-    const std::vector<const Entity> GetEntityList();
+    const std::vector<const Entity>* GetEntityList()
+    {
+        return reinterpret_cast<const std::vector<const Entity> *>(EntityList);
+    }
 
 private:
     float time = 0;

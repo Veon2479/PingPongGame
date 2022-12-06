@@ -10,17 +10,61 @@ class Entity {
 
 public:
 
-    virtual void MoveTo(int dx, int dy);
-    virtual void Update(int v);
+    Entity(long x_, long y_, long xSize_, long ySize_)
+    {
+        X = x_;
+        Y = y_;
+        Width = xSize_;
+        Height = ySize_;
+    }
 
-    long GetX();
-    long GetY();
-    long GetXSize();
-    long GetYSize();
+    virtual void MoveTo(int dx, int dy) = 0;
+    virtual void Update(int v) = 0;
+
+    long GetX()
+    {
+        return X;
+    }
+
+    void SetX(long x_)
+    {
+        X = x_;
+    }
+
+    long GetY()
+    {
+        return Y;
+    }
+
+    void SetY(long y_)
+    {
+        Y = y_;
+    }
+
+
+    long GetWidth()
+    {
+        return Width;
+    }
+
+    void SetWidth(long width_)
+    {
+        Width = width_;
+    }
+
+    long GetHeight()
+    {
+        return Height;
+    }
+
+    void SetHeight(long height_)
+    {
+        Height = height_;
+    }
 
 private:
     long X = 0, Y = 0;
-    long xSize = 0, ySize = 0;
+    long Width = 0, Height = 0;
 
 };
 

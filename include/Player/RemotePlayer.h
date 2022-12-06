@@ -8,9 +8,13 @@
 
 #include "Player.h"
 
-class RemotePlayer : Player{
+class RemotePlayer : public Player{
 
     //TODO: make UDP connection via UDP winapi socket
+public:
+
+    explicit RemotePlayer(int playerId);
+
 
 };
 
